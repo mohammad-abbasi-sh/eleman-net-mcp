@@ -15,7 +15,7 @@ mcp-name: io.github.mohammad-abbasi-sh/eleman-net-mcp
   "mcpServers": {
     "eleman-net": {
       "command": "uvx",
-      "args": ["eleman-net-mcp==0.1.0"]
+      "args": ["eleman-net-mcp==0.1.1"]
     }
   }
 }
@@ -51,9 +51,9 @@ eleman.net آگهی‌ها را کاملاً سمت سرور رندر می‌ک�
 ## نصب
 
 ```bash
-uvx eleman-net-mcp==0.1.0        # اجرای مستقیم (نیازمند uv)
+uvx eleman-net-mcp==0.1.1        # اجرای مستقیم (نیازمند uv)
 # یا
-pip install eleman-net-mcp==0.1.0
+pip install eleman-net-mcp==0.1.1
 eleman-net-mcp    # سرور MCP را روی stdio راه می‌اندازد
 ```
 
