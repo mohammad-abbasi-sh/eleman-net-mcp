@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "eleman-net-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Unofficial read-only MCP server for eleman.net jobs (search, job detail, sectors, cities, newest listings)"
 readme = "README.md"
 license = { text = "MIT" }
