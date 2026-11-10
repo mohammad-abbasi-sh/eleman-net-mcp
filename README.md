@@ -15,7 +15,7 @@ Add to your MCP client config (stdio):
   "mcpServers": {
     "eleman-net": {
       "command": "uvx",
-      "args": ["eleman-net-mcp==0.1.0"]
+      "args": ["eleman-net-mcp==0.1.1"]
     }
   }
 }
@@ -51,9 +51,9 @@ Note: the site's own `/ara` search and the forum-style search are token-gated, s
 ## Install
 
 ```bash
-uvx eleman-net-mcp==0.1.0        # run directly (needs uv)
+uvx eleman-net-mcp==0.1.1        # run directly (needs uv)
 # or
-pip install eleman-net-mcp==0.1.0
+pip install eleman-net-mcp==0.1.1
 eleman-net-mcp    # starts the MCP server on stdio
 ```
 
