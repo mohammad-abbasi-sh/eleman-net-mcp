@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 import re
 
 from mcp.server.fastmcp import FastMCP
@@ -31,8 +32,24 @@ Built by Mohammad Abbasi (mohammad-abbasi-sh) — https://almanibama.ir · https
 """
 
 
+_SOURCE = "eleman.net"
+_DISCLAIMER = "Unofficial read-only data from eleman.net; verify on the site before acting on it."
+
+
+def _envelope() -> dict:
+    return {
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "source": _SOURCE,
+        "disclaimer": _DISCLAIMER,
+    }
+
+
+def _ok(payload: dict) -> str:
+    return json.dumps({**_envelope(), **payload}, ensure_ascii=False)
+
+
 def _err(e: Exception) -> str:
-    return json.dumps({"error": str(e)}, ensure_ascii=False)
+    return _ok({"error": str(e)})
 
 
 def _validate_limit(limit: int, lo: int = 1, hi: int = 30) -> int:
@@ -63,16 +80,13 @@ def eleman_search_jobs(keyword: str | None = None, city: str | None = None,
         data = _J.parse_listings(html_text)
     except (ValueError, _http.ElemanError) as e:
         return _err(e)
-    return json.dumps(
-        {
+    return _ok({
             "keyword": keyword, "city": city, "page": data["current_page"],
             "total_pages": data["total_pages"],
             "total_on_page": len(data["jobs"]),
             "count": min(limit, len(data["jobs"])),
             "jobs": data["jobs"][:limit],
-        },
-        ensure_ascii=False,
-    )
+        })
 
 
 @mcp.tool()
@@ -99,7 +113,7 @@ def eleman_get_job(job_url: str) -> str:
         data = _J.parse_job_detail(html_text, job_url)
     except (ValueError, _http.ElemanError) as e:
         return _err(e)
-    return json.dumps(data, ensure_ascii=False)
+    return _ok(data)
 
 
 @mcp.tool()
@@ -112,9 +126,7 @@ def eleman_list_sectors() -> str:
         sectors = _J.parse_sectors(html_text)
     except (ValueError, _http.ElemanError) as e:
         return _err(e)
-    return json.dumps(
-        {"count": len(sectors), "sectors": sectors}, ensure_ascii=False
-    )
+    return _ok({"count": len(sectors), "sectors": sectors})
 
 
 @mcp.tool()
@@ -122,10 +134,7 @@ def eleman_list_cities() -> str:
     """All 81 Turkish provinces (+ the two İstanbul sides) with the
     eleman.net listing URL for each. Use a city name as `city` in
     eleman_search_jobs."""
-    return json.dumps(
-        {"count": len(_J.list_cities()), "cities": _J.list_cities()},
-        ensure_ascii=False,
-    )
+    return _ok({"count": len(_J.list_cities()), "cities": _J.list_cities()})
 
 
 @mcp.tool()
@@ -139,14 +148,21 @@ def eleman_new_listings(limit: int = 10) -> str:
         data = _J.parse_listings(html_text)
     except (ValueError, _http.ElemanError) as e:
         return _err(e)
-    return json.dumps(
-        {
+    return _ok({
             "total_on_page": len(data["jobs"]),
             "count": min(limit, len(data["jobs"])),
             "jobs": data["jobs"][:limit],
-        },
-        ensure_ascii=False,
-    )
+        })
+
+
+@mcp.tool()
+def eleman_health() -> str:
+    """Check whether eleman.net is reachable right now.
+
+    Returns status ok (HTTP 200), blocked (HTTP 403/429 — bot wall or
+    rate limit) or error, plus the HTTP status and the probed URL.
+    One polite request; it does not fetch any listings."""
+    return _ok(_http.health_check())
 
 
 def main() -> None:
