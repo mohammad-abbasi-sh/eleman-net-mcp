@@ -15,7 +15,7 @@ MCP istemci yapılandırmanıza ekleyin (stdio):
   "mcpServers": {
     "eleman-net": {
       "command": "uvx",
-      "args": ["eleman-net-mcp"]
+      "args": ["eleman-net-mcp==0.1.0"]
     }
   }
 }
@@ -51,9 +51,9 @@ Not: Sitenin kendi `/ara` araması ve forum araması token gerektirir; anahtar k
 ## Kurulum
 
 ```bash
-uvx eleman-net-mcp        # doğrudan çalıştır (uv gerekir)
+uvx eleman-net-mcp==0.1.0        # doğrudan çalıştır (uv gerekir)
 # veya
-pip install eleman-net-mcp
+pip install eleman-net-mcp==0.1.0
 eleman-net-mcp    # MCP sunucusunu stdio üzerinde başlatır
 ```
 
