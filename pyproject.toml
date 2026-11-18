@@ -7,7 +7,7 @@ name = "eleman-net-mcp"
 version = "0.1.1"
 description = "Unofficial read-only MCP server for eleman.net jobs (search, job detail, sectors, cities, newest listings)"
 readme = "README.md"
-license = { text = "MIT" }
+license = { text = "PolyForm-Noncommercial-1.0.0" }
 requires-python = ">=3.10"
 dependencies = [
     "mcp<2",
